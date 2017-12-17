@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- Client action to perform Reply, Reply All and Forwarding -->
+        <act_window name="VietERP Mail-Inbox" id="action_mail_inbox_reply"
+            res_model="mail.inbox"
+            view_mode="form"
+            target="new"
+        />
+
         <record model="ir.ui.view" id="view_mail_inbox_search">
             <field name="name">mail.inbox.search</field>
             <field name="model">mail.inbox</field>
@@ -52,6 +59,10 @@
             <field name="arch" type="xml">
                 <form string="Message" edit="false">
                     <header>
+                        <button name="%(action_mail_inbox_reply)d" type="action" target="new" string="Reply" class="oe_highlight" attrs="{'invisible': [('state','!=','inbox')]}" context="{'default_subject' : 'RE: '+subject, 'default_email_to': email_from, 'default_body_html': body_html}"/>
+                        <button name="%(action_mail_inbox_reply)d" type="action" target="new" string="Reply All" class="oe_highlight" attrs="{'invisible': [('state','!=','inbox')]}" context="{'default_subject' : 'RE: '+subject, 'default_email_to': email_from, 'default_email_cc': email_cc, 'default_body_html': body_html}"/>
+                        <button name="%(action_mail_inbox_reply)d" type="action" target="new" string="Forward" class="oe_highlight" attrs="{'invisible': [('state','not in', ['inbox', 'sent'])]}" context="{'default_subject': 'FWD: '+ subject, 'default_body_html': body_html,}"/>
+
                         <button name="send" string="Send Now" type="object" states='outgoing' class="oe_highlight"/>
                         <button name="mark_outgoing" string="Retry" type="object" states='exception,cancel'/>
                         <button name="cancel" string="Cancel" type="object" states='outgoing'/>
@@ -64,6 +75,7 @@
                         <group col="8">
                             <group colspan="8">
                                 <field name="partner_ids" widget="many2many_tags" invisible="1"/>
+                                <field name="email_from" attrs="{'invisible': [('state','!=', 'inbox')]}"/>
                                 <field name="email_to" required="True"/>
                                 <field name="email_cc"/>
                                 <field name="reply_to"/>
@@ -146,5 +158,8 @@
         <menuitem id="menu_mail_draft" sequence="20" action="action_mail_draft" parent="menu_mails"/>
         <menuitem id="menu_mail_outbox" sequence="30" action="action_mail_outbox" parent="menu_mails"/>
         <menuitem id="menu_mail_sent" sequence="40" action="action_mail_sent" parent="menu_mails"/>
+
+
+
     </data>
 </odoo>
