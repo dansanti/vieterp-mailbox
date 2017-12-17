@@ -19,6 +19,14 @@ class vieterp_fetchmail_server(models.Model):
     source_id = fields.Many2one('mail.server.source', string='Mail Source')
     object_id = fields.Many2one('ir.model', string="Create a New Record", default=_def_object_id)
 
+    @api.model
+    def create(self, values):
+        values['type'] = self.env['mail.server.source'].browse(values['source_id']).type
+        res = super(vieterp_fetchmail_server, self).create(values)
+        self._update_cron()
+        return res
+
+
     @api.multi
     def fetch_mail(self):
         result = super(vieterp_fetchmail_server, self).fetch_mail()
