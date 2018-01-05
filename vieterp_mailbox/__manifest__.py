@@ -11,6 +11,7 @@
     - Receiving email from odoo
     - Composing email from odoo
     - Choosing template when composing email
+    - Reply to mail directly from odoo
 
 2. Why choose this?
     - Quickly compose email by using template
@@ -31,7 +32,7 @@
 
     """,
 
-    'author': "VietERP / Sang",
+    'author': "VietERP / Sang, Vikas Goyal",
     'website': "http://www.vieterp.net",
 
     # Categories can be used to filter modules in modules listing

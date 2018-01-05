@@ -69,3 +69,4 @@ class vieterp_mail_inbox(models.Model):
             if not self.body_html:
                 signature = self.env['res.users'].browse(self._uid).signature
                 self.body_html = signature
+
